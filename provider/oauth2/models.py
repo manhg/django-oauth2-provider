@@ -45,6 +45,10 @@ class Client(models.Model):
     client_secret = models.CharField(max_length=255, default=long_token)
     client_type = models.IntegerField(choices=CLIENT_TYPES)
 
+    class Meta:
+
+        db_table = 'oauth2_client'
+
     def __unicode__(self):
         return self.redirect_uri
 
@@ -105,6 +109,10 @@ class Grant(models.Model):
     redirect_uri = models.CharField(max_length=255, blank=True)
     scope = models.IntegerField(default=0)
 
+    class Meta:
+
+        db_table = 'oauth2_grant'
+
     def __unicode__(self):
         return self.code
 
@@ -135,6 +143,10 @@ class AccessToken(models.Model):
     expires = models.DateTimeField()
     scope = models.IntegerField(default=constants.SCOPES[0][0],
             choices=constants.SCOPES)
+
+    class Meta:
+
+        db_table = 'oauth2_accesstoken'
 
     objects = AccessTokenManager()
 
@@ -185,6 +197,10 @@ class RefreshToken(models.Model):
             related_name='refresh_token')
     client = models.ForeignKey(Client)
     expired = models.BooleanField(default=False)
+
+    class Meta:
+
+        db_table = 'oauth2_refreshtoken'
 
     def __unicode__(self):
         return self.token
